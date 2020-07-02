@@ -63,15 +63,17 @@ export const singerListParams = {
   notice: 0,
   platform: 'yqq.json',
   needNewCode: 0,
-  data:
-    {
-      'comm': {'ct': 24, 'cv': 0},
-      'singerList': {
-        'module': 'Music.SingerListServer',
-        'method': 'get_singer_list',
-        'param': {'area': -100, 'sex': -100, 'genre': -100, 'index': -100, 'sin': 0, 'cur_page': 1}
+  data: {
+    'comm': {'ct': 24, 'cv': 0},
+    'singerList': {
+      'module': 'Music.SingerListServer',
+      'method': 'get_singer_list',
+      'param': {
+        'area': -100, 'sex': -100, 'genre': -100, 'index': -100, 'sin': 0,
+        'cur_page': 1
       }
     }
+  }
 
 }
 export const getSingerSongs = (id: string) => {
@@ -153,5 +155,35 @@ export const getSongUrl = (songmid: string) => {
     platform: 'yqq.json',
     needNewCode: 0,
     data
+  }
+}
+export const getHotSingerList = () => {
+  const data = {
+    "req_0": {
+      "module": "musichall.singerlistserver",
+      "method": "GetBatchSingers",
+      "param": {"area": -100, "sex": -100, "genre": -100, "hastag": 1, "begin": 0, "num": 200}
+    },
+    "req_1": {"module": "musichall.singerlistserver", "method": "OftenListenSinger", "param": {"maxNum": 12}},
+    "comm": {"g_tk": 5381, "uin": 0, "format": "json", "platform": "h5", "ct": 23, "cv": 0}
+  }
+  return {
+    data,
+    sign: getSecuritySign(JSON.stringify(data)),
+    '_': (Math.random() + "").replace("0.", "")
+  }
+}
+export const getIndexSingerData = () => {
+  const data = {
+    "req_0": {
+      "module": "musichall.singerlistserver",
+      "method": "GetBatchSingers",
+      "param": {"area": -100, "sex": -100, "genre": -100, "hastag": 1, "begin": 200, "num": 800}
+    }, "comm": {"g_tk": 5381, "uin": 0, "format": "json", "platform": "h5", "ct": 23, "cv": 0}
+  }
+  return {
+    data,
+    sign: getSecuritySign(JSON.stringify(data)),
+    '_': (Math.random() + "").replace("0.", "")
   }
 }

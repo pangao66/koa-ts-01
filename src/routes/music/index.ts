@@ -1,8 +1,14 @@
 import Router from 'koa-router'
 import axios from 'axios'
-import { discListParams, getSingerSongs, getSongUrl, singerListParams, topBannerParams } from './config'
+import {
+  discListParams,
+  getHotSingerList,
+  getIndexSingerData,
+  getSingerSongs,
+  getSongUrl,
+  topBannerParams
+} from './config'
 import { TopBannerContent } from './types'
-import { singerlist } from "./singerList"
 
 const music = new Router()
 music.prefix('/api/music')
@@ -43,22 +49,67 @@ music.get('/getDiscList', async ctx => {
   })
   ctx.body = data
 })
-music.get('/getSingerList', async ctx => {
-  const {data} = await axios.get('https://u.y.qq.com/cgi-bin/musics.fcg', {
-    params: singerListParams,
+// music.get('/getSingerList', async ctx => {
+//   const {data} = await axios.get('https://u.y.qq.com/cgi-bin/musics.fcg', {
+//     params: singerListParams,
+//     headers: {
+//       origin: 'https://y.qq.com',
+//       referer: 'https://y.qq.com/portal/singer_list.html',
+//     }
+//   })
+//   const singerList1 = data?.singerList?.data?.singerlist ?? []
+//   const singerList2 = singerlist
+//   ctx.body = {
+//     code: 10000,
+//     data: {
+//       hot: singerList1,
+//       common: singerList2
+//     },
+//   }
+// })
+music.get('/getHotSingerList', async ctx => {
+  const {data, sign, _} = getHotSingerList()
+  const res = await axios.post('https://u.y.qq.com/cgi-bin/musics.fcg', data, {
+    params: {
+      sign, _
+    },
     headers: {
       origin: 'https://y.qq.com',
-      referer: 'https://y.qq.com/portal/singer_list.html',
+      referer: 'https://y.qq.com/m/client/singer_home/index.html?_video=1&_hdso=1',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-Requested-With': 'com.tencent.qqmusic',
+      'Sec-Fetch-Site': 'same-site',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Dest': 'empty',
+      // Cookie: guid=000000007d5c2e5c000000000033c587; ct=11; cv=9170005; sim_uuid=d20110169036d564
     }
   })
-  const singerList1 = data?.singerList?.data?.singerlist ?? []
-  const singerList2 = singerlist
   ctx.body = {
-    code: 10000,
-    data: {
-      hot: singerList1,
-      common: singerList2
+    success: true,
+    data: res.data?.req_0?.data?.singerlist || []
+  }
+  console.log(res)
+})
+music.get('/getSingerList', async ctx => {
+  const {data, sign, _} = getIndexSingerData()
+  const res = await axios.post('https://u.y.qq.com/cgi-bin/musics.fcg', data, {
+    params: {
+      sign, _
     },
+    headers: {
+      origin: 'https://y.qq.com',
+      referer: 'https://y.qq.com/m/client/singer_home/index.html?_video=1&_hdso=1',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-Requested-With': 'com.tencent.qqmusic',
+      'Sec-Fetch-Site': 'same-site',
+      'Sec-Fetch-Mode': 'cors',
+      'Sec-Fetch-Dest': 'empty',
+      // Cookie: guid=000000007d5c2e5c000000000033c587; ct=11; cv=9170005; sim_uuid=d20110169036d564
+    }
+  })
+  ctx.body = {
+    success: true,
+    data: res.data.req_0?.data?.singerlist || []
   }
 })
 music.get('/getSingerDetail', async ctx => {
