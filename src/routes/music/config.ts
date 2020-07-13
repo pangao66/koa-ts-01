@@ -89,7 +89,7 @@ export const getSingerSongs = (id: string) => {
         "singerMid": id,
         // "singerMid": '001BLpXF2DyJe2',
         "begin": 0,
-        "num": 10
+        "num": 100
       },
       "module": "musichall.song_list_server"
     }
@@ -113,7 +113,7 @@ export const getSingerSongs = (id: string) => {
     data
   }
 }
-export const getSongUrl = (songmid: string) => {
+export const getSongUrl = (songmid: string[]) => {
   const guid = _guid ? _guid + '' : '1429839143'
   const data = {
     "req": {
@@ -127,7 +127,7 @@ export const getSongUrl = (songmid: string) => {
       "param": {
         "guid": guid,
         // "songmid": ["000lv3Zi13dSVA"],
-        "songmid": [songmid],
+        "songmid": [...songmid],
         "songtype": [0],
         "uin": "",
         "loginflag": 1,
@@ -185,5 +185,21 @@ export const getIndexSingerData = () => {
     data,
     sign: getSecuritySign(JSON.stringify(data)),
     '_': (Math.random() + "").replace("0.", "")
+  }
+}
+export const lyricConfig = (id: string) => {
+  return {
+    '-': 'MusicJsonCallback_lrc',
+    pcachetime: +new Date(),
+    songmid: id,
+    g_tk_new_20200303: 1313868759,
+    g_tk: 1313868759,
+    hostUin: 0,
+    format: 'json',
+    inCharset: 'utf8',
+    outCharset: 'utf-8',
+    notice: 0,
+    platform: 'yqq.json',
+    needNewCode: 0
   }
 }

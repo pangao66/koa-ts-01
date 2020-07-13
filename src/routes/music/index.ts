@@ -5,7 +5,7 @@ import {
   getHotSingerList,
   getIndexSingerData,
   getSingerSongs,
-  getSongUrl,
+  getSongUrl, lyricConfig,
   topBannerParams
 } from './config'
 import { TopBannerContent } from './types'
@@ -120,13 +120,85 @@ music.get('/getSingerDetail', async ctx => {
     params: getSingerSongs(singerId)
   })
   console.log(data)
-  ctx.body = data.singerSongList.data
+  ctx.body = {
+    success: true,
+    data: data.singerSongList.data
+  }
 })
-music.get('/getSongUrl', async ctx => {
-  const songmid: string = ctx.query.id
+music.post('/getSongUrl', async ctx => {
+  const songmid: string[] = ctx.request.body.songMids
   const {data} = await axios.get('https://u.y.qq.com/cgi-bin/musics.fcg', {
     params: getSongUrl(songmid)
   })
-  ctx.body = data
+  console.log(data)
+  ctx.body = {
+    success: true,
+    data: data
+  }
+})
+music.get('/getLyric', async ctx => {
+  const id = ctx.query.id
+  const {data} = await axios.get('https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg',
+    {
+      params: lyricConfig(id),
+      headers: {
+        origin: 'https://y.qq.com',
+        referer: 'https://y.qq.com/portal/player.html'
+      }
+    })
+  ctx.body = {
+    success: true,
+    data: data?.lyric
+  }
+})
+music.get('/getHotKey', async ctx => {
+  const {data} = await axios.get('https://c.y.qq.com/splcloud/fcgi-bin/gethotkey.fcg?', {
+    params: {
+      g_tk_new_20200303: 5381,
+      g_tk: 5381,
+      hostUin: 0,
+      format: 'json',
+      inCharset: 'utf8',
+      outCharset: 'utf-8',
+      notice: 0,
+      platform: 'yqq.json',
+      needNewCode: 0,
+    },
+    headers: {
+      origin: 'https://y.qq.com',
+      referer: 'https://y.qq.com/',
+    }
+  })
+  ctx.body = {
+    success: true,
+    data: data.data
+  }
+
+})
+music.get('/search', async ctx => {
+  const keywords = ctx.query.keywords
+  const {data} = await axios.get('https://c.y.qq.com/splcloud/fcgi-bin/smartbox_new.fcg', {
+    params: {
+      is_xml: 0,
+      key: keywords,
+      g_tk_new_20200303: 5381,
+      g_tk: 5381,
+      hostUin: 0,
+      format: 'json',
+      inCharset: 'utf8',
+      outCharset: 'utf-8',
+      notice: 0,
+      platform: 'yqq.json',
+      needNewCode: 0
+    },
+    headers: {
+      origin: 'https://y.qq.com',
+      referer: 'https://y.qq.com/',
+    }
+  })
+  ctx.body = {
+    success: true,
+    data: data.data
+  }
 })
 export default music
