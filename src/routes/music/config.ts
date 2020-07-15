@@ -1,7 +1,6 @@
 import getSecuritySign from './index.umd'
 import { _guid } from './utils'
 
-console.log(_guid)
 export const commonParams = {
   g_tk: 1928093487,
   inCharset: 'utf-8',
@@ -201,5 +200,30 @@ export const lyricConfig = (id: string) => {
     notice: 0,
     platform: 'yqq.json',
     needNewCode: 0
+  }
+}
+export const songInfoConfig = ({song_mid, song_id}: { song_mid: string, song_id: string }) => {
+  return {
+    data: {
+      comm: {
+        ct: 24,
+        cv: 0
+      },
+      songinfo: {
+        method: "get_song_detail_yqq",
+        param: {
+          song_type: 0,
+          song_mid,
+          song_id,
+        },
+        module: "music.pf_song_detail_svr"
+      }
+    },
+    format: "json",
+    inCharset: "utf8",
+    outCharset: "utf-8",
+    notice: 0,
+    platform: "yqq.json",
+    needNewCode: 0,
   }
 }

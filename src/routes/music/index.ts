@@ -5,7 +5,7 @@ import {
   getHotSingerList,
   getIndexSingerData,
   getSingerSongs,
-  getSongUrl, lyricConfig,
+  getSongUrl, lyricConfig, songInfoConfig,
   topBannerParams
 } from './config'
 import { TopBannerContent } from './types'
@@ -199,6 +199,17 @@ music.get('/search', async ctx => {
   ctx.body = {
     success: true,
     data: data.data
+  }
+})
+music.get('/getSongInfo', async ctx => {
+  const {song_mid, song_id} = ctx.query
+  const {data} = await axios.get('https://u.y.qq.com/cgi-bin/musicu.fcg', {
+    params: songInfoConfig({song_mid, song_id})
+  })
+  console.log(data)
+  ctx.body = {
+    success: true,
+    data: data?.songinfo?.data?.track_info
   }
 })
 export default music
