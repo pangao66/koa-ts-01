@@ -2,7 +2,7 @@ import Router from 'koa-router'
 import axios from 'axios'
 import combineRouters from 'koa-combine-routers'
 import music from './music'
-
+import admin from './admin'
 // const router = new Router()
 // import { list } from '../mock'
 
@@ -61,7 +61,8 @@ import music from './music'
 //     ctx.body = data
 // })
 const router = combineRouters(
-    music
+    music,
+    admin
 )
 export default router
 
