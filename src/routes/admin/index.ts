@@ -23,7 +23,10 @@ admin.prefix('/api/admin')
 admin.post('/search-list', async (ctx) => {
   ctx.body = {
     ...commonBody,
-    data: mockPeople.peoples,
+    data: {
+      list: mockPeople.peoples,
+      total: mockPeople.peoples.length
+    },
   }
 })
 export default admin
