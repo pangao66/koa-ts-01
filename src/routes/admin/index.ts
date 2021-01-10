@@ -20,6 +20,7 @@ const mockPeople = Mock.mock({
   }]
 });
 admin.prefix('/api/admin')
+
 admin.post('/search-list', async (ctx) => {
   ctx.body = {
     ...commonBody,
