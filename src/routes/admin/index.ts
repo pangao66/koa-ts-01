@@ -8,7 +8,6 @@ const commonBody = {
 }
 const admin = new Router()
 admin.prefix('/api/admin')
-
 admin.post('/search-list', async (ctx) => {
   const {list, total} = await getMockUserList(ctx.request.body)
   ctx.body = {

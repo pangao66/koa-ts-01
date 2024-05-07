@@ -7,7 +7,6 @@ const app = new Koa()
 import router from './routes/index'
 
 const staticPath = './static'
-console.log(__dirname)
 app.use(KoaStatic(
   path.join(__dirname, staticPath)
 ))
