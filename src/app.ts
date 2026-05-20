@@ -11,7 +11,8 @@ app.use(KoaStatic(
   path.join(__dirname, staticPath)
 ))
 app.use(koaBodyParser())
-app.use(router())
+app.use(router.routes())
+app.use(router.allowedMethods())
 app.listen(3000, () => {
   console.log('服务已启动: http://localhost:3000')
   console.log('示例页面: http://localhost:3000/demo.html')
