@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/koa-static": "^4.0.1",
     "axios": "1.6.0",
+    "jose": "^6.0.12",
     "koa": "^2.15.3",
     "koa-bodyparser": "^4.4.1",
     "koa-combine-routers": "^4.0.2",

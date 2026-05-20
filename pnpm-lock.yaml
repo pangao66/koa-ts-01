@@ -11,6 +11,9 @@ dependencies:
   axios:
     specifier: 1.6.0
     version: 1.6.0
+  jose:
+    specifier: ^6.0.12
+    version: 6.0.12
   koa:
     specifier: ^2.15.3
     version: 2.15.3
@@ -863,6 +866,10 @@ packages:
 
   /isarray@0.0.1:
     resolution: {integrity: sha512-D2S+3GLxWH+uhrNEcoh/fnmYeP8E8/zHl644d/jdA0g2uyXvy3sb0qxotE+ne0LtccHknQzWwZEzhak7oJ0COQ==}
+    dev: false
+
+  /jose@6.0.12:
+    resolution: {integrity: sha512-T8xypXs8CpmiIi78k0E+Lk7T2zlK4zDyg+o1CZ4AkOHgDg98ogdP2BeZ61lTFKFyoEwJ9RgAgN+SdM3iPgNonQ==}
     dev: false
 
   /keygrip@1.1.0:

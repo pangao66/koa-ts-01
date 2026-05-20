@@ -2,9 +2,9 @@ import Koa from 'koa'
 import koaBodyParser from 'koa-bodyparser'
 import KoaStatic from 'koa-static'
 import path from 'path'
+import router from './routes/index'
 
 const app = new Koa()
-import router from './routes/index'
 
 const staticPath = './static'
 app.use(KoaStatic(
@@ -12,5 +12,7 @@ app.use(KoaStatic(
 ))
 app.use(koaBodyParser())
 app.use(router())
-app.listen(3000)
-
+app.listen(3000, () => {
+  console.log('服务已启动: http://localhost:3000')
+  console.log('示例页面: http://localhost:3000/demo.html')
+})
