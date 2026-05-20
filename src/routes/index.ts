@@ -1,68 +1,40 @@
 import Router from 'koa-router'
-import axios from 'axios'
-import combineRouters from 'koa-combine-routers'
-import music from './music'
-import admin from './admin'
-// const router = new Router()
-// import { list } from '../mock'
 
-// router.prefix('/api')
-// router.get('/base-table', async ctx => {
-//     console.log(list.length)
-//     ctx.body = {
-//         success: true,
-//         data: list
-//     }
-// })
-// router.get('/getTopBanner', async ctx => {
-//     const { data } = await axios.get('https://u.y.qq.com/cgi-bin/musicu.fcg', {
-//         params: {
-//             g_tk: 1928093487,
-//             inCharset: 'utf-8',
-//             outCharset: 'utf-8',
-//             notice: 0,
-//             // format: 'json',
-//             platform: 'yqq.json',
-//             hostUin: 0,
-//             needNewCode: 0,
-//             // inCharset: 'utf8',
-//             format: 'json',
-//             '-': 'recom' + (Math.random() + '').replace('0.', ''),
-//             data: {
-//                 'comm': { 'ct': 24 },
-//                 'category': { 'method': 'get_hot_category', 'param': { 'qq': '' }, 'module': 'music.web_category_svr' },
-//                 'recomPlaylist': {
-//                     'method': 'get_hot_recommend',
-//                     'param': { 'async': 1, 'cmd': 2 },
-//                     'module': 'playlist.HotRecommendServer'
-//                 },
-//                 'playlist': {
-//                     'method': 'get_playlist_by_category',
-//                     'param': { 'id': 8, 'curPage': 1, 'size': 40, 'order': 5, 'titleid': 8 },
-//                     'module': 'playlist.PlayListPlazaServer'
-//                 },
-//                 'new_song': {
-//                     'module': 'newsong.NewSongServer',
-//                     'method': 'get_new_song_info',
-//                     'param': { 'type': 5 }
-//                 },
-//                 'new_album': {
-//                     'module': 'newalbum.NewAlbumServer',
-//                     'method': 'get_new_album_info',
-//                     'param': { 'area': 1, 'sin': 0, 'num': 10 }
-//                 },
-//                 'new_album_tag': { 'module': 'newalbum.NewAlbumServer', 'method': 'get_new_album_area', 'param': {} },
-//                 'toplist': { 'module': 'musicToplist.ToplistInfoServer', 'method': 'GetAll', 'param': {} },
-//                 'focus': { 'module': 'QQMusic.MusichallServer', 'method': 'GetFocus', 'param': {} }
-//             }
-//         }
-//     })
-//     console.log(data)
-//     ctx.body = data
-// })
-const router = combineRouters(
-    music,
-    admin
-)
+const router = new Router()
+
+// GET 接口 - 获取问候信息
+router.get('/api/hello', async (ctx) => {
+  ctx.body = {
+    code: 200,
+    message: '请求成功',
+    data: {
+      greeting: '你好，欢迎使用 Koa + TypeScript！',
+      timestamp: new Date().toISOString()
+    }
+  }
+})
+
+// POST 接口 - 接收并返回消息
+router.post('/api/message', async (ctx) => {
+  const { name, content } = ctx.request.body as { name: string; content: string }
+
+  if (!name || !content) {
+    ctx.body = {
+      code: 400,
+      message: '参数缺失，请提供 name 和 content',
+      data: null
+    }
+    return
+  }
+
+  ctx.body = {
+    code: 200,
+    message: '消息发送成功',
+    data: {
+      reply: `收到来自「${name}」的消息：${content}`,
+      receivedAt: new Date().toISOString()
+    }
+  }
+})
+
 export default router
-
